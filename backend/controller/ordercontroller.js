@@ -10,8 +10,9 @@ exports.neworder = async (req, res) => {
       itemsPrice, 
       taxPrice, 
       shippingPrice, 
-      totalPrice 
-    } = req.body;
+      totalPrice ,
+  
+    } = req.body; 
 
     // ✅ Create new order
     const order = await Order.create({

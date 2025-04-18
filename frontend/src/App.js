@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect , useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import WebFont from "webfontloader";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,8 @@ import Home from "./component/function/Home";
 import Search from "./component/search/Search";
 import Login from "./component/user/login"; // Ensure correct casing
 import Profile from "./component/user/Profile";
+import axios from 'axios'; // Add this import
+
 
 import { loadUser } from "./actions/useraction";
 
@@ -35,6 +37,13 @@ export default function App() {
   const dispatch = useDispatch(); // ✅ Use dispatch inside function
 
   const { user, isAuthenticated } = useSelector((state) => state.user);
+  const [stripeApiKey , setStripeApiKey] = useState('')
+
+  async function getStripeApiKey(){
+    const {data}= await axios.get('/api/v1/stripeapikey')
+    setStripeApiKey(data.stripeApiKey)
+  }
+
 
   useEffect(() => {
     WebFont.load({
@@ -42,8 +51,9 @@ export default function App() {
         families: ["Roboto", "Droid Sans", "Chilanka"],
       },
     });
-
-    dispatch(loadUser()); // ✅ Dispatch inside useEffect
+// using as we want to load component gloabally and then use by everyone so we dont have to do it again
+    dispatch(loadUser()); 
+    getStripeApiKey()
   }, [dispatch]);
   return (
     <Router>

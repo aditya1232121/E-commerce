@@ -47,10 +47,13 @@ app.use((req, res, next) => {
 const Routes = require("./routes/route");
 const userRoutes = require("./routes/userroutes");
 const orders = require("./routes/orderroutes");
+const payment = require("./routes/paymentRoute")
 
 app.use("/api/v1", Routes);
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", orders);
+app.use("/api/v1", payment);
+
 
 // Catch-all route to prevent 404 errors
 app.get("/", (req, res) => {
