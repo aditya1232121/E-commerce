@@ -1,4 +1,6 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const User = require("../model/usermodel");
+const jwt = require("jsonwebtoken");
 
 // Process Payment
 exports.processPayment = async (req, res) => {
@@ -34,3 +36,22 @@ exports.sendStripeApiKey = async (req, res) => {
     });
   }
 };
+
+// Middleware to check if the user is authenticated
+
+exports.isAuthenticatedUser = async (req, res, next) => {
+  const { token } = req.cookies;
+
+  if (!token) {
+    return res.status(401).json({ message: "Please Login to access this resource" });
+  }
+
+  try {
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = await User.findById(decodedData.id);
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid token" });
+  }
+};
+

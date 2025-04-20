@@ -61,6 +61,21 @@ exports.login = async (req, res) => {
       return res.status(401).json({ status: "fail", message: "Incorrect email or password" });
     }
     createSendToken(user, 200, res);
+    // 4. Send token in cookie
+  res
+  .status(200)
+  .cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // true in production
+    sameSite: "Lax", // or "None" with HTTPS + secure=true
+    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+  })
+  .json({
+    success: true,
+    user,
+    token,
+  });
+
   } catch (err) {
     res.status(500).json({ status: "fail", message: err.message });
   }

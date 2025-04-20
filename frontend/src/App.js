@@ -11,6 +11,8 @@ import Search from "./component/search/Search";
 import Login from "./component/user/login"; // Ensure correct casing
 import Profile from "./component/user/Profile";
 import axios from 'axios'; // Add this import
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";  
 
 
 import { loadUser } from "./actions/useraction";
@@ -33,18 +35,24 @@ import Shipping from "./component/cart/Shipping";
 
 import ConfirmOrder from "./component/cart/ConfirmOrder";
 
+import Payment from "./component/cart/Payment"
+
 export default function App() {
   const dispatch = useDispatch(); // ✅ Use dispatch inside function
 
   const { user, isAuthenticated } = useSelector((state) => state.user);
-  const [stripeApiKey , setStripeApiKey] = useState('')
+  const [stripeApiKey, setStripeApiKey] = useState("");
 
-  async function getStripeApiKey(){
-    const {data}= await axios.get('/api/v1/stripeapikey')
-    setStripeApiKey(data.stripeApiKey)
+  async function getStripeApiKey() {
+    try {
+      const { data } = await axios.get("http://localhost:4000/api/v1/stripeapikey", {
+        withCredentials: true,
+      });
+      setStripeApiKey(data.stripeApiKey);
+    } catch (error) {
+      console.error("Stripe API Key fetch error:", error.message);
+    }
   }
-
-
   useEffect(() => {
     WebFont.load({
       google: {
@@ -55,6 +63,7 @@ export default function App() {
     dispatch(loadUser()); 
     getStripeApiKey()
   }, [dispatch]);
+  const stripePromise =  loadStripe("pk_test_51RFGVYP3q3FElQelb11dWz47qNJV7PcZOlg44HW9eQYl1HcIurNZvjMkMeAB22mHRwoduzEdz5nS0ZRXXWNsKo8j00W3Nf4Rr0"); 
   return (
     <Router>
       <Header />
@@ -141,6 +150,13 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/process/payment" element={
+            <ProtectedRoute>
+              <Elements stripe={stripePromise}>
+                <Payment />
+              </Elements>
+            </ProtectedRoute>
+          } />
         </Routes>
       </div>
       <Footer />
