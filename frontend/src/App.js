@@ -37,6 +37,8 @@ import ConfirmOrder from "./component/cart/ConfirmOrder";
 
 import Payment from "./component/cart/Payment"
 
+import OrderSuccess from "./component/cart/orderSuccess";
+
 export default function App() {
   const dispatch = useDispatch(); // ✅ Use dispatch inside function
 
@@ -157,6 +159,14 @@ export default function App() {
               </Elements>
             </ProtectedRoute>
           } />
+          <Route
+            path="/success"
+            element={
+              <ProtectedRoute>
+                <OrderSuccess />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
       <Footer />

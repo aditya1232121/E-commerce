@@ -1,8 +1,7 @@
 import React from "react";
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useRef } from "react";
 import CheckoutSteps from "./CheckoutSteps";
 import { useSelector, useDispatch } from "react-redux";
-import MetaData from "../layout/MetaData";
 import { Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import {
@@ -18,11 +17,13 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import EventIcon from '@mui/icons-material/Event';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { useNavigate } from "react-router-dom";
+import {createOrder} from "../../actions/orderaction"
 
 
 export default function Payment() {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
   const payBtn = useRef(null);
+  const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
@@ -32,6 +33,15 @@ export default function Payment() {
   const paymentData = {
     amount: Math.round(orderInfo.totalPrice * 100),
   };
+
+  const order = {
+    shippingInfo: shippingInfo,
+    orderItems : cartItems ,
+    itemsPrice: orderInfo.itemsPrice,
+    taxPrice: orderInfo.taxPrice,
+    totalPrice: orderInfo.totalPrice,
+    shippingPrice : orderInfo.shippingPrice ,
+  }
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -75,7 +85,11 @@ export default function Payment() {
         toast.error(result.error.message);
       } else {
         if (result.paymentIntent.status === "succeeded") {
-          toast.success("Your payemnt succed")
+          order.paymentinfo = {
+            id : result.paymentIntent.id ,
+            status : result.paymentIntent.status ,
+          }
+          dispatch(createOrder(order))
           navigate("/success");
         }
       }
