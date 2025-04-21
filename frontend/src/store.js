@@ -3,6 +3,7 @@ import { productDetailsReducer, productReducer } from "./reducers/productreducer
 import { userReducer, profileReducer, ForgotReducer } from "./reducers/userreducer";
 import { cartReducer } from "./reducers/Cartreducer";
 import { newOrderReducer } from "./reducers/ordereducer";
+import { myOrderReducer } from "./reducers/ordereducer";
 
 // ✅ Define initialState outside configureStore
 const initialState = {
@@ -27,6 +28,7 @@ const store = configureStore({
     forgotPassword: ForgotReducer,
     cart: cartReducer,
     newOrder : newOrderReducer,
+    myOrders : myOrderReducer
   },
   preloadedState: initialState, // ✅ use preloadedState for initial data
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),

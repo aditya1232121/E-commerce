@@ -39,10 +39,13 @@ import Payment from "./component/cart/Payment"
 
 import OrderSuccess from "./component/cart/orderSuccess";
 
+import MyOrder from "./component/Order/MyOrder"
+
 export default function App() {
   const dispatch = useDispatch(); // ✅ Use dispatch inside function
 
   const { user, isAuthenticated } = useSelector((state) => state.user);
+  // eslint-disable-next-line no-unused-vars
   const [stripeApiKey, setStripeApiKey] = useState("");
 
   async function getStripeApiKey() {
@@ -164,6 +167,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <OrderSuccess />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <MyOrder />
               </ProtectedRoute>
             }
           />
