@@ -4,10 +4,9 @@ const upload = require("../utils/multer")
 
 const router = express.Router();
 
-
 router
-.route('/register')
-.post(authController.registerUser);
+  .route("/register")
+  .post(upload.single("avatar"), authController.signup); // Multer handles the file upload
 
 
 

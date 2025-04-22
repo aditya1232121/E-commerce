@@ -35,7 +35,7 @@ export default function Payment() {
   };
 
   const order = {
-    shippingInfo: shippingInfo,
+    shippingInfo ,
     orderItems : cartItems ,
     itemsPrice: orderInfo.itemsPrice,
     taxPrice: orderInfo.taxPrice,
@@ -85,13 +85,14 @@ export default function Payment() {
         toast.error(result.error.message);
       } else {
         if (result.paymentIntent.status === "succeeded") {
-          order.paymentinfo = {
-            id : result.paymentIntent.id ,
-            status : result.paymentIntent.status ,
-          }
-          dispatch(createOrder(order))
+          order.paymentInfo = {
+            id: result.paymentIntent.id,
+            status: result.paymentIntent.status,
+          };
+          dispatch(createOrder(order));
           navigate("/success");
         }
+        
       }
     } catch (err) {
       payBtn.current.disabled = false;

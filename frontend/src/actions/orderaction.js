@@ -14,14 +14,15 @@ try {
         type : CREATE_ORDER_REQUEST,
     })
     const config = {
-        headers: {
+        headers: {           
             "Content-Type": "application/json",
             },
-    }
-    const {data} = await axios.post("http://localhost:4000/api/v1/order/new" , order , config)
+            withCredentials: true, 
+    } ;
+    const {data} = await axios.post("http://localhost:4000/api/v1/order/new" , order , config) ;
     dispatch({
         type : CREATE_ORDER_SUCCESS ,
-        payload : data ,
+        payload : data.order,
         })
 
 } catch (err) {
@@ -38,8 +39,10 @@ export const MyOrders = () => async (dispatch, getState) => {
         dispatch ({
             type : MY_ORDER_REQUEST,
         })
-        
-        const {data} = await axios.get("http://localhost:4000/api/v1/orders/me")
+        const config = {
+            withCredentials: true, // ✅ Required for protected route
+          };
+        const {data} = await axios.get("http://localhost:4000/api/v1/order/me" , config)
         dispatch({
             type : MY_ORDER_SUCCESS ,
             payload : data.orders , //data.ordrrs is not dur to array name butr because backend return this res
