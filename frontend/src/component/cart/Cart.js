@@ -4,23 +4,30 @@ import Carditem from "../cart/Carditem";
 import {additem , removeItem} from "../../actions/cartaction";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 export default function Cart() {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);
-
-  const increaseQuantity = (id, quantity, stock) => {
-    const newQty = quantity + 1;
-    if (quantity >= stock) return;
-    dispatch(additem(id, newQty));
-  };
-
+  
+const increaseQuantity = (id, quantity, stock) => {
+  const newQty = quantity + 1;
+  if (quantity >= stock) {
+    toast.error("No more items")
+    return;
+  }
+  dispatch(additem(id, newQty));
+};
   const decreaseQuantity = (id, quantity) => {
     const newQty = quantity - 1;
-    if (newQty < 1) return;
-    dispatch(additem(id, newQty));
+    if (newQty < 1) {
+      dispatch(removeItem(id)); // remove item if quantity becomes 0
+    } else {
+      dispatch(additem(id, newQty)); // otherwise update quantity
+    }
   };
+  
 
   const deleteCartItems = (id) => {
     dispatch(removeItem(id));
