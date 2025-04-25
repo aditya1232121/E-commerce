@@ -41,6 +41,8 @@ import OrderSuccess from "./component/cart/orderSuccess";
 
 import MyOrder from "./component/Order/MyOrder"
 
+import OrderDetail from "./component/Order/OrderDetail";
+
 export default function App() {
   const dispatch = useDispatch(); // ✅ Use dispatch inside function
 
@@ -175,6 +177,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <MyOrder />
+              </ProtectedRoute>
+            }
+          />
+           <Route
+            path="/order/:id"
+            element={
+              <ProtectedRoute>
+                <OrderDetail />
               </ProtectedRoute>
             }
           />

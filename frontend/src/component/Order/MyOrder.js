@@ -31,7 +31,16 @@ export default function MyOrder() {
   
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 300, flex: 1 },
-    { field: "status", headerName: "Status", minWidth: 150, flex: 0.5 },
+  
+    {
+      field: "status",
+      headerName: "Status",
+      minWidth: 150,
+      flex: 0.5,
+      cellClassName: (params) => {
+        return params.value === "Delivered" ? "greenColor" : "redColor";
+      }
+    } ,
     {
       field: "itemsQty",
       headerName: "Items Quantity",
@@ -93,4 +102,4 @@ export default function MyOrder() {
       )}
     </Fragment>
   );
-} 
+}                    

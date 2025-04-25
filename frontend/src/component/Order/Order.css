@@ -78,3 +78,13 @@
       font: 500 5vw "Roboto" !important;
     }
   }
+
+  .greenColor {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .redColor {
+    color: red;
+    font-weight: bold;
+  }
