@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/order/new", control , neworder);
 router.get("/order/me", control, myorders); // ✅ FIX: Place this before /order/:id
-router.route("/order/:id").get(control, restrictedto("admin"), getSingleOrder);
+router.route("/order/:id").get(control, getSingleOrder);
 
 router.route("/admin/order").get(control , restrictedto("admin") , getAllOrders )
 

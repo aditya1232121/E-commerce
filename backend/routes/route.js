@@ -27,7 +27,9 @@ router
   .delete(control, restrictedto("admin"), deleteProduct);
 
 // Routes for reviews (creating, getting, and deleting reviews)
-router.route("/product/:id/review").put(control, createProductReview);  // Review route with product ID
+router.route("/review").put(control, createProductReview);  
 router.route("/product/:id/reviews").get(getProductReviews).delete(control, restrictedto("admin"), deleteProductReview);  // Get and delete reviews for a specific product
+
+router.route("/reviews").get(getProductReviews).delete(control , deleteProductReview)
 
 module.exports = router;
