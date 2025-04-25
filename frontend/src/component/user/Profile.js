@@ -21,7 +21,7 @@ export default function Profile() {
       <div className="profileContainer">
         {/* Left section with image and edit button */}
         <div>
-          <h1>Profile</h1>
+          
           <img
             src={user.avatar?.url || "/defaultAvatar.png"}
             alt={user.name}
