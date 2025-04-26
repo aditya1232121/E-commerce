@@ -21,7 +21,7 @@ export default function UserOptions({ user }) {
   const dispatch = useDispatch();
 
   const dashboard = () => {
-    navigate("/dashboard");
+    navigate("/admin/dashboard");
   };
 
   const orders = () => {

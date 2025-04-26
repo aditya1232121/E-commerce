@@ -43,6 +43,10 @@ import MyOrder from "./component/Order/MyOrder"
 
 import OrderDetail from "./component/Order/OrderDetail";
 
+import Dashboard from "./component/admin/Dashboard"
+
+import UserRoleComponent from "./component/admin/UserRoleComponent";
+
 export default function App() {
   const dispatch = useDispatch(); // ✅ Use dispatch inside function
 
@@ -185,6 +189,17 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <OrderDetail />
+              </ProtectedRoute>
+            }
+          />
+ <Route path="/admin/dashboard" element={<ProtectedRoute isAdmin={true}><Dashboard /></ProtectedRoute>} />
+
+
+<Route
+            path="/admin/user-role"
+            element={
+              <ProtectedRoute isAdmin = {true}>
+                <UserRoleComponent />
               </ProtectedRoute>
             }
           />
