@@ -7,9 +7,14 @@ import {
   PRODUCTS_DETAILS_SUCCESS,
   PRODUCTS_DETAILS_FAIL,
   NEW_REVIEW_REQUEST ,
-  NEW_REVIEW_SUCCESS ,
-  NEW_REVIEW_RESET , 
-  NEW_REVIEW_FAIL
+  NEW_REVIEW_SUCCESS , 
+  ADMIN_PRODUCT_REQUEST,
+  ADMIN_PRODUCT_SUCCESS,
+  ADMIN_PRODUCT_FAIL,
+  NEW_REVIEW_FAIL ,
+  NEW_PRODUCT_REQUEST,
+  NEW_PRODUCT_SUCCESS,
+  NEW_PRODUCT_FAIL,
 } from "../constants/productConstant";
 
 // ✅ Fetch all products with filters
@@ -79,6 +84,63 @@ export const newReview = (reviewData) => async (dispatch) => {
 
     dispatch({
       type: NEW_REVIEW_SUCCESS,
+      payload: data.success, // true or false
+    });
+  } catch (error) {
+    dispatch({
+      type: NEW_REVIEW_FAIL,
+      payload: error.response?.data?.message || error.message,
+    });
+  }
+};
+
+
+// get all product for admin 
+
+export const getadminProducts = () => async(dispatch) => {
+  try {
+    dispatch ({
+      type : ADMIN_PRODUCT_REQUEST
+    })
+    const config = {
+      withCredentials: true,
+    }
+
+    const {data} = await axios.get( "http://localhost:4000/api/v1/admin/products" , config)
+    dispatch({
+      type : ADMIN_PRODUCT_SUCCESS ,
+      payload : data.products
+    })
+
+  }
+  catch(error) {
+    dispatch({
+      type: ADMIN_PRODUCT_FAIL,
+      payload: error.response?.data?.message || error.message,
+    });
+  }
+}
+
+
+
+
+export const newProduct = (Data) => async (dispatch) => {
+  try {
+    dispatch({ type: NEW_PRODUCT_REQUEST });
+
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    };
+
+    const { data } = await axios.put(
+      "http://localhost:4000/api/v1/admin/product/new",
+      Data,
+      config
+    );
+
+    dispatch({
+      type: NEW_PRODUCT_SUCCESS,
       payload: data.success, // true or false
     });
   } catch (error) {

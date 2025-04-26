@@ -43,17 +43,35 @@ export default function Sidebar() {
         </AccordionSummary>
         <AccordionDetails>
           <List>
-            <ListItem button component={Link} to="/admin/products">
+            <ListItem button component={Link} to="/admin/product">
               <PostAddIcon />
               <ListItemText primary="All Products" />
             </ListItem>
-            <ListItem button component={Link} to="/admin/product">
+            <ListItem button component={Link} to="/admin/products">
               <AddIcon />
               <ListItemText primary="Create Product" />
             </ListItem>
           </List>
         </AccordionDetails>
       </Accordion>
+      <Link to = "/admin/orders">
+      <p> 
+        <ListAltIcon/>
+        Orders
+      </p>
+      </Link>
+      <Link to = "/admin/users">
+      <p> 
+        <PeopleIcon/>
+        Users
+      </p>
+      </Link>
+      <Link to = "/admin/reviews">
+      <p> 
+        <RateReviewIcon/>
+        Reviews
+      </p>
+      </Link>
     </div>
   );
 }

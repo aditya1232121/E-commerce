@@ -8,6 +8,8 @@ const {
   getProductReviews,  // Renamed for clarity
   deleteProductReview,
   getProductDetails,
+  getAdminProducts,
+  createProducting,
 } = require("../controller/productcontroller");
 const { control, restrictedto } = require("../controller/authcontroller");
 
@@ -31,5 +33,13 @@ router.route("/review").put(control, createProductReview);
 router.route("/product/:id/reviews").get(getProductReviews).delete(control, restrictedto("admin"), deleteProductReview);  // Get and delete reviews for a specific product
 
 router.route("/reviews").get(getProductReviews).delete(control , deleteProductReview)
+
+router.route("/admin/products").get(control , restrictedto("admin") , getAdminProducts)
+
+
+router.route("/admin/product/new").put(control , restrictedto("admin") ,createProducting)
+
+
+
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import React, { useEffect , useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import WebFont from "webfontloader";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,10 +10,9 @@ import Home from "./component/function/Home";
 import Search from "./component/search/Search";
 import Login from "./component/user/login"; // Ensure correct casing
 import Profile from "./component/user/Profile";
-import axios from 'axios'; // Add this import
+import axios from "axios"; // Add this import
 import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";  
-
+import { Elements } from "@stripe/react-stripe-js";
 
 import { loadUser } from "./actions/useraction";
 
@@ -25,27 +24,27 @@ import UpdateProfile from "./component/user/UpdateProfile";
 
 import UpdatePassword from "./component/user/UpdatePassword";
 
-import ForgotPassword from "./component/user/ForgotPassword"
+import ForgotPassword from "./component/user/ForgotPassword";
 
-import ResetPassword from "./component/user/ResetPassword"
- 
+import ResetPassword from "./component/user/ResetPassword";
+
 import Cart from "./component/cart/Cart";
 
 import Shipping from "./component/cart/Shipping";
 
 import ConfirmOrder from "./component/cart/ConfirmOrder";
 
-import Payment from "./component/cart/Payment"
+import Payment from "./component/cart/Payment";
 
 import OrderSuccess from "./component/cart/orderSuccess";
 
-import MyOrder from "./component/Order/MyOrder"
+import MyOrder from "./component/Order/MyOrder";
 
 import OrderDetail from "./component/Order/OrderDetail";
 
-import Dashboard from "./component/admin/Dashboard"
-
-import UserRoleComponent from "./component/admin/UserRoleComponent";
+import Dashboard from "./component/admin/Dashboard";
+import ProductList from "./component/admin/ProductList";
+import NewProduct from "./component/admin/NewProduct";
 
 export default function App() {
   const dispatch = useDispatch(); // ✅ Use dispatch inside function
@@ -56,9 +55,12 @@ export default function App() {
 
   async function getStripeApiKey() {
     try {
-      const { data } = await axios.get("http://localhost:4000/api/v1/stripeapikey", {
-        withCredentials: true,
-      });
+      const { data } = await axios.get(
+        "http://localhost:4000/api/v1/stripeapikey",
+        {
+          withCredentials: true,
+        }
+      );
       setStripeApiKey(data.stripeApiKey);
     } catch (error) {
       console.error("Stripe API Key fetch error:", error.message);
@@ -70,11 +72,13 @@ export default function App() {
         families: ["Roboto", "Droid Sans", "Chilanka"],
       },
     });
-// using as we want to load component gloabally and then use by everyone so we dont have to do it again
-    dispatch(loadUser()); 
-    getStripeApiKey()
+    // using as we want to load component gloabally and then use by everyone so we dont have to do it again
+    dispatch(loadUser());
+    getStripeApiKey();
   }, [dispatch]);
-  const stripePromise =  loadStripe("pk_test_51RFGVYP3q3FElQelb11dWz47qNJV7PcZOlg44HW9eQYl1HcIurNZvjMkMeAB22mHRwoduzEdz5nS0ZRXXWNsKo8j00W3Nf4Rr0"); 
+  const stripePromise = loadStripe(
+    "pk_test_51RFGVYP3q3FElQelb11dWz47qNJV7PcZOlg44HW9eQYl1HcIurNZvjMkMeAB22mHRwoduzEdz5nS0ZRXXWNsKo8j00W3Nf4Rr0"
+  );
   return (
     <Router>
       <Header />
@@ -104,7 +108,7 @@ export default function App() {
           />
           <Route
             path="/cart"
-            element={<Cart/>}
+            element={<Cart />}
           />
           <Route
             path="/contact"
@@ -140,11 +144,12 @@ export default function App() {
           />
           <Route
             path="/password/forgot"
-            element={
-                <ForgotPassword />
-            }
+            element={<ForgotPassword />}
           />
-          <Route path ="/password/reset/:token" element={<ResetPassword/>} />
+          <Route
+            path="/password/reset/:token"
+            element={<ResetPassword />}
+          />
           <Route
             path="/login/shipping"
             element={
@@ -161,13 +166,16 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/process/payment" element={
-            <ProtectedRoute>
-              <Elements stripe={stripePromise}>
-                <Payment />
-              </Elements>
-            </ProtectedRoute>
-          } />
+          <Route
+            path="/process/payment"
+            element={
+              <ProtectedRoute>
+                <Elements stripe={stripePromise}>
+                  <Payment />
+                </Elements>
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/success"
             element={
@@ -184,7 +192,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-           <Route
+          <Route
             path="/order/:id"
             element={
               <ProtectedRoute>
@@ -192,14 +200,27 @@ export default function App() {
               </ProtectedRoute>
             }
           />
- <Route path="/admin/dashboard" element={<ProtectedRoute isAdmin={true}><Dashboard /></ProtectedRoute>} />
-
-
-<Route
-            path="/admin/user-role"
+          <Route
+            path="/admin/dashboard"
             element={
-              <ProtectedRoute isAdmin = {true}>
-                <UserRoleComponent />
+              <ProtectedRoute isAdmin={true}>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/product"
+            element={
+              <ProtectedRoute isAdmin={true}>
+                <ProductList />
+              </ProtectedRoute>
+            }
+          />
+           <Route
+            path="/admin/products"
+            element={
+              <ProtectedRoute isAdmin={true}>
+                <NewProduct />
               </ProtectedRoute>
             }
           />

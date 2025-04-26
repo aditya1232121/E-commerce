@@ -1,10 +1,13 @@
 .sidebar {
-    background-color: rgb(255, 255, 255);
-    display: flex;
-    flex-direction: column;
-    padding: 4rem 0;
-  }
-  
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 0;
+  width: 15vmax;    /* 👈 Added width */
+  min-height: 100vh; /* 👈 Added full screen height */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* optional: light shadow for separation */
+}
+
   .sidebar > a:first-child {
     padding: 0;
   }

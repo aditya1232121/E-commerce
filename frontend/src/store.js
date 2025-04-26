@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { newReviewReducer, productDetailsReducer, productReducer } from "./reducers/productreducer";
+import { newProductReducer, newReviewReducer, productDetailsReducer, productReducer } from "./reducers/productreducer";
 import { userReducer, profileReducer, ForgotReducer } from "./reducers/userreducer";
 import { cartReducer } from "./reducers/Cartreducer";
 import { newOrderReducer, OrderDetailsReducer } from "./reducers/ordereducer";
@@ -30,7 +30,9 @@ const store = configureStore({
     newOrder : newOrderReducer,
     myOrders : myOrderReducer ,
     orderDetails : OrderDetailsReducer ,
-    newReview : newReviewReducer
+    newReview : newReviewReducer ,
+    newProduct : newProductReducer
+
   },
   preloadedState: initialState, // ✅ use preloadedState for initial data
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),

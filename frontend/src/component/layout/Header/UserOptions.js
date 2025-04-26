@@ -56,7 +56,7 @@ export default function UserOptions({ user }) {
       func: dashboard,
     });
   }
-
+  
   return (
     <Fragment>
       <ToastContainer position="top-center" autoClose={2000} />

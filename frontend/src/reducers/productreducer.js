@@ -8,20 +8,34 @@ import {
   NEW_REVIEW_REQUEST ,
   NEW_REVIEW_SUCCESS ,
   NEW_REVIEW_RESET , 
-  NEW_REVIEW_FAIL
+  NEW_REVIEW_FAIL ,
+  ADMIN_PRODUCT_REQUEST,
+  ADMIN_PRODUCT_SUCCESS,
+  ADMIN_PRODUCT_FAIL,
+  NEW_PRODUCT_REQUEST,
+  NEW_PRODUCT_SUCCESS,
+  NEW_PRODUCT_FAIL,
+  NEW_PRODUCT_RESET,
 } from "../constants/productConstant";
 
 // Product Reducer to handle all products
 export const productReducer = (state = { products: [], keyword: "", error: null }, action) => {
   switch (action.type) {
     case ALL_PRODUCTS_REQUEST:
+      case ADMIN_PRODUCT_REQUEST :
       return {...state , loading: true}; 
     case ALL_PRODUCTS_SUCCESS:
       return {
         loading: false,
         products: action.payload.products,
       };
+      case ADMIN_PRODUCT_SUCCESS :
+        return {
+          loading : false ,
+          products : action.payload 
+        }
     case ALL_PRODUCTS_FAIL:
+      case ADMIN_PRODUCT_FAIL : 
       return { loading: false, error: action.payload }; // Store error payload
     default:
       return state;
@@ -52,6 +66,21 @@ export const newReviewReducer = (state = { }, action) => {
     case NEW_REVIEW_FAIL:
       return { loading: false, error: action.payload };
       case NEW_REVIEW_RESET:
+        return { ...state , success : false}; // used to clear previous data 
+    default:
+      return state;
+  }
+};
+
+export const newProductReducer = (state = { product : {}}, action) => {
+  switch (action.type) {
+    case NEW_PRODUCT_REQUEST:
+      return { ...state, loading: true, };
+    case NEW_PRODUCT_SUCCESS:                           
+      return { loading: false, product: action.payload.product , success : action.payload.success};
+    case NEW_PRODUCT_FAIL:
+      return { loading: false, error: action.payload };
+      case NEW_PRODUCT_RESET:
         return { ...state , success : false}; // used to clear previous data 
     default:
       return state;
