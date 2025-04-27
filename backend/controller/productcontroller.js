@@ -255,28 +255,24 @@ exports.getAdminProducts = async (req, res) => {
 
 
 // Create Product -- Admin
+// Create Product -- Admin
 exports.createProducting = async (req, res, next) => {
   try {
-    let images = [];
+    const files = req.files;
 
-    if (typeof req.body.images === "string") {
-      images.push(req.body.images);
-    } else {
-      images = req.body.images;
+    if (!files || files.length === 0) {
+      return res.status(400).json({ success: false, message: "Please upload images" });
     }
 
     const imagesLinks = [];
 
-    for (let i = 0; i < images.length; i++) {
-      const result = await cloudinary.v2.uploader.upload(images[i], {
-        folder: "products",
-      });
-
+    // Here files already have `path`, `public_id`, and `url` from Multer-Cloudinary
+    files.forEach(file => {
       imagesLinks.push({
-        public_id: result.public_id,
-        url: result.secure_url,
+        public_id: file.filename, // this is the public_id in cloudinary
+        url: file.path,           // this is the secure_url in cloudinary
       });
-    }
+    });
 
     req.body.images = imagesLinks;
     req.body.user = req.user.id;
@@ -288,6 +284,7 @@ exports.createProducting = async (req, res, next) => {
       product,
     });
   } catch (error) {
+    console.log(error); // for debugging
     next(error);
   }
 };

@@ -13,7 +13,10 @@ const {
 } = require("../controller/productcontroller");
 const { control, restrictedto } = require("../controller/authcontroller");
 
+const upload = require("../utils/multer")
+
 const router = express.Router();
+
 
 // Get all products and create a new product (restricted to admins)
 router
@@ -37,7 +40,7 @@ router.route("/reviews").get(getProductReviews).delete(control , deleteProductRe
 router.route("/admin/products").get(control , restrictedto("admin") , getAdminProducts)
 
 
-router.route("/admin/product/new").put(control , restrictedto("admin") ,createProducting)
+router.route("/admin/product/new").post(control , restrictedto("admin") , upload.array("images", 5) , createProducting)
 
 
 

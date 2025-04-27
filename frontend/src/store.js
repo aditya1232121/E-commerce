@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { newProductReducer, newReviewReducer, productDetailsReducer, productReducer } from "./reducers/productreducer";
+import { DeleteProductReducer, newProductReducer, newReviewReducer, productDetailsReducer, productReducer } from "./reducers/productreducer";
 import { userReducer, profileReducer, ForgotReducer } from "./reducers/userreducer";
 import { cartReducer } from "./reducers/Cartreducer";
 import { newOrderReducer, OrderDetailsReducer } from "./reducers/ordereducer";
@@ -15,7 +15,7 @@ const initialState = {
       ? JSON.parse(localStorage.getItem("shippingInfo"))
       : {}
   },
-};
+};                                  
 
            
 
@@ -31,8 +31,8 @@ const store = configureStore({
     myOrders : myOrderReducer ,
     orderDetails : OrderDetailsReducer ,
     newReview : newReviewReducer ,
-    newProduct : newProductReducer
-
+    newProduct : newProductReducer ,
+   deleteproduct : DeleteProductReducer
   },
   preloadedState: initialState, // ✅ use preloadedState for initial data
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),

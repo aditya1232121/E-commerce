@@ -15,6 +15,9 @@ import {
   NEW_PRODUCT_REQUEST,
   NEW_PRODUCT_SUCCESS,
   NEW_PRODUCT_FAIL,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_FAIL,
 } from "../constants/productConstant";
 
 // ✅ Fetch all products with filters
@@ -123,17 +126,17 @@ export const getadminProducts = () => async(dispatch) => {
 
 
 
-
+// create product
 export const newProduct = (Data) => async (dispatch) => {
   try {
     dispatch({ type: NEW_PRODUCT_REQUEST });
 
     const config = {
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "multipart/form-data" } ,
       withCredentials: true,
     };
 
-    const { data } = await axios.put(
+    const { data } = await axios.post(
       "http://localhost:4000/api/v1/admin/product/new",
       Data,
       config
@@ -145,7 +148,35 @@ export const newProduct = (Data) => async (dispatch) => {
     });
   } catch (error) {
     dispatch({
-      type: NEW_REVIEW_FAIL,
+      type: NEW_PRODUCT_FAIL,
+      payload: error.response?.data?.message || error.message,
+    });
+  }
+};
+
+
+// delete 
+
+export const DeleteProduct = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_PRODUCT_REQUEST });
+
+    const config = {
+     withCredentials: true,
+    };
+
+    const { data } = await axios.delete(
+      `http://localhost:4000/api/v1/products/${id}`,
+      config
+    );
+
+    dispatch({
+      type: DELETE_PRODUCT_SUCCESS,
+      payload: { id, success: data.success },
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_PRODUCT_FAIL,
       payload: error.response?.data?.message || error.message,
     });
   }

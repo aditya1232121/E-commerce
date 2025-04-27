@@ -63,27 +63,27 @@ export default function NewProduct() {
   
       dispatch(newProduct(myForm));
     };
-  
     const createProductImagesChange = (e) => {
       const files = Array.from(e.target.files);
-  
-      setImages([]);
+    
+      setImages([]); 
       setImagesPreview([]);
-  
+    
       files.forEach((file) => {
         const reader = new FileReader();
-  
+    
         reader.onload = () => {
           if (reader.readyState === 2) {
-            setImagesPreview((old) => [...old, reader.result]);
-            setImages((old) => [...old, reader.result]);
+            setImagesPreview((old) => [...old, reader.result]); // Preview images for display
+            setImages((old) => [...old, file]); // Store the file objects for submission
           }
         };
-  
+    
         reader.readAsDataURL(file);
+
       });
     };
-  
+    
     return (
       <Fragment>
         <MetaData title="Create Product" />
