@@ -20,6 +20,10 @@ import {
   DELETE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_FAIL,
   DELETE_PRODUCT_RESET,
+  UPDATE_PRODUCT_REQUEST,
+  UPDATE_PRODUCT_SUCCESS,
+  UPDATE_PRODUCT_FAIL,
+  UPDATE_PRODUCT_RESET,
 } from "../constants/productConstant";
 
 // Product Reducer to handle all products
@@ -110,6 +114,7 @@ export const newProductReducer = (state = { product: {} }, action) => {
 export const DeleteProductReducer = (state = {}, action) => {
   switch (action.type) {
     case DELETE_PRODUCT_REQUEST:
+      case UPDATE_PRODUCT_REQUEST :
       return { ...state, loading: true };
     case DELETE_PRODUCT_SUCCESS:
       return {
@@ -117,11 +122,22 @@ export const DeleteProductReducer = (state = {}, action) => {
         loading: false,
         isDeleted: action.payload.success,
       };
+      case UPDATE_PRODUCT_SUCCESS:
+      return {
+        ...state , // give me the whole state back 
+        loading: false,
+        isUpdated : action.payload.success,
+      };
     case DELETE_PRODUCT_FAIL:
+      case UPDATE_PRODUCT_FAIL :
       return { loading: false, error: action.payload };
     case DELETE_PRODUCT_RESET:
-      return { ...state, success: false }; // used to clear previous data
+      return { ...state, success: false };
+      case UPDATE_PRODUCT_RESET:
+      return { ...state, isUpdated: false }; // used to clear previous data
     default:
       return state;
   }
 };
+
+

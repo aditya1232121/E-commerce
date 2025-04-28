@@ -18,6 +18,9 @@ import {
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_FAIL,
+  UPDATE_PRODUCT_REQUEST,
+  UPDATE_PRODUCT_SUCCESS,
+  UPDATE_PRODUCT_FAIL,
 } from "../constants/productConstant";
 
 // ✅ Fetch all products with filters
@@ -177,6 +180,32 @@ export const DeleteProduct = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: DELETE_PRODUCT_FAIL,
+      payload: error.response?.data?.message || error.message,
+    });
+  }
+};
+
+
+// update
+export const UpdateProduct = (id, updatedData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_PRODUCT_REQUEST });
+
+    const config = { withCredentials: true };
+    
+    const { data } = await axios.patch(
+      `http://localhost:4000/api/v1/products/${id}`,
+      updatedData,
+      config
+    );
+
+    dispatch({
+      type: UPDATE_PRODUCT_SUCCESS,
+      payload: { id, success: data.success },
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PRODUCT_FAIL,
       payload: error.response?.data?.message || error.message,
     });
   }

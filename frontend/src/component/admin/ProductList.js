@@ -3,17 +3,34 @@ import "./productlist.css"
 import { DataGrid } from '@mui/x-data-grid';
 import {Fragment , useEffect} from 'react'
 import {useSelector , useDispatch} from 'react-redux'
-import { getadminProducts } from '../../actions/productAction';
+import { getadminProducts , DeleteProduct } from '../../actions/productAction';
 import {Link} from 'react-router-dom'
+import {toast} from "react-toastify"
 import { Button } from '@mui/material';
 import MetaData from '../layout/MetaData';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from "./Sidebar"
 
 export default function ProductList() {
     const dispatch = useDispatch();
+    const navigate = useNavigate() ;
     const { products } = useSelector((state) => state.products);
+    const {isDeleted} = useSelector((state)=> state.deleteproduct )
+
+    const deleteProductHnadler = (id) => {
+      dispatch(DeleteProduct(id))
+
+    }
+    
+    useEffect(() => {
+      if (isDeleted) {
+        toast.success("Item deleted successfully!");
+        navigate("/admin/dashboard");  // ✅ correct
+      }
+    }, [isDeleted, navigate]);
+    
   
     useEffect(() => {
       dispatch(getadminProducts());
@@ -51,10 +68,10 @@ export default function ProductList() {
         renderCell: (params) => {
           return (
             <Fragment>
-              <Link to={`/admin/product/${params.getValue(params.id, "id")}`}>
+              <Link to={`/admin/product/${params.row.id}`}>
                 <EditIcon />
               </Link>
-              <Button>
+              <Button onClick={() => deleteProductHnadler(params.row.id)}> 
                 <DeleteIcon />
               </Button>
             </Fragment>
@@ -64,7 +81,7 @@ export default function ProductList() {
     ];
   
     const rows = [];
-  
+  // used row for params not rows as we refer single row that is build in db
     products && products.forEach((item) => {   // ✅ fixed forEach
       rows.push({
         id: item._id,    // ✅ MongoDB usually gives "_id", not "id"
@@ -74,6 +91,8 @@ export default function ProductList() {
       });
     });
   
+
+
     return (
       <Fragment>
         <MetaData title="All Products" />
