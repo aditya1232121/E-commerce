@@ -46,9 +46,13 @@ import Dashboard from "./component/admin/Dashboard";
 import ProductList from "./component/admin/ProductList";
 import NewProduct from "./component/admin/NewProduct";
 
+import ProcessOrder from "./component/admin/ProcessOrder";
+
 import UpdateProduct from "./component/admin/UpdateProduct";
 import Order from "./component/admin/Order";
 
+import Users from "./component/admin/Users"
+import UpdateUser from "./component/admin/UpdateUser";
 export default function App() {
   const dispatch = useDispatch(); // ✅ Use dispatch inside function
 
@@ -219,7 +223,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-           <Route
+          <Route
             path="/admin/products"
             element={
               <ProtectedRoute isAdmin={true}>
@@ -235,11 +239,36 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-           <Route
+          <Route
             path="/admin/orders"
             element={
               <ProtectedRoute isAdmin={true}>
                 <Order />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/order/:id"
+            element={
+              <ProtectedRoute isAdmin={true}>
+                <ProcessOrder />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute isAdmin={true}>
+                <Users />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/user/:id"
+            element={
+              <ProtectedRoute isAdmin={true}>
+                <UpdateUser />
               </ProtectedRoute>
             }
           />

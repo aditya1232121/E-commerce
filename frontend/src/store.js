@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { DeleteProductReducer, newProductReducer, newReviewReducer, productDetailsReducer, productReducer } from "./reducers/productreducer";
-import { userReducer, profileReducer, ForgotReducer } from "./reducers/userreducer";
+import { userReducer, profileReducer, ForgotReducer, allUsersReducer, userDetailsReducer } from "./reducers/userreducer";
 import { cartReducer } from "./reducers/Cartreducer";
-import { newOrderReducer, OrderDetailsReducer } from "./reducers/ordereducer";
+import { allOrderReducer, newOrderReducer, OrderDetailsReducer, orderReducer } from "./reducers/ordereducer";
 import { myOrderReducer } from "./reducers/ordereducer";
 
 // ✅ Define initialState outside configureStore
@@ -32,7 +32,12 @@ const store = configureStore({
     orderDetails : OrderDetailsReducer ,
     newReview : newReviewReducer ,
     newProduct : newProductReducer ,
-   deleteproduct : DeleteProductReducer
+   deleteproduct : DeleteProductReducer ,
+   allOrders : allOrderReducer ,
+   order : orderReducer ,
+   allUsers : allUsersReducer ,
+   userDetails : userDetailsReducer
+      
   },
   preloadedState: initialState, // ✅ use preloadedState for initial data
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),

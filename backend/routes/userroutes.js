@@ -47,10 +47,12 @@ router
 
 router.route("/admin/users").get(authController.control , authController.restrictedto("admin") , authController.getalluser)
 
-router.route("/admin/users/:id").put(authController.control , authController.restrictedto("admin") , authController.updateuserrole) 
+router.route("/admin/user/:id").put(authController.control , authController.restrictedto("admin") , authController.updateuserrole) 
 
 
-router.route("/admin/users/:id").delete(authController.control , authController.restrictedto("admin") , authController.deleteme) 
+router.route("/admin/user/:id").delete(authController.control , authController.restrictedto("admin") , authController.deleteme) 
+
+router.route("/admin/user/:id").get(authController.control , authController.restrictedto("admin") , authController.getSingleUser)
 
 
 module.exports = router;

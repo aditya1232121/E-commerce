@@ -275,10 +275,18 @@ exports.updateMe = async (req, res, next) => {
 //admin
 exports.deleteme = async (req, res, next) => {
   try {
-    await User.findByIdAndUpdate(req.user.id, { active: false });
-    res.status(204).json({
+    const user = await User.findByIdAndDelete(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'No user found',
+      });
+    }
+
+    res.status(200).json({
       status: 'success',
-      message: 'User deleted',
+      message: 'User deleted successfully',
     });
   } catch (err) {
     res.status(400).json({
@@ -289,22 +297,21 @@ exports.deleteme = async (req, res, next) => {
 };
 
 // getting all user details as a admin
-exports.getalluser = async (req , res) => {
+
+exports.getalluser = async (req, res) => {
   try {
-const user = await User.find() ;
-res.status(200).json({
-  status: 'success',
-  user
-    
-})
-  }
-  catch(err){
+    const users = await User.find();
+    res.status(200).json({
+      status: 'success',
+      users: users
+    });
+  } catch (err) {
     res.status(400).json({
       status: 'fail',
       message: err.message,
     });
   }
-}
+};
 
 // admin
 exports.updateuserrole = async (req , res) => {
@@ -404,4 +411,26 @@ exports.updateuserrole = async (req , res) => {
             res.status(500).json({ success: false, message: "Server Error" });
           }
         };
+
+        // Get single user (admin)
+exports.getSingleUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: `User does not exist with Id: ${req.params.id}`,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    next(error); // Pass the error to the global error handler
+  }
+};
+
         
