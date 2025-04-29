@@ -10,7 +10,7 @@ import ImportExportIcon from '@mui/icons-material/ImportExport';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
-//import RateReviewIcon from '@mui/icons-material/RateReview';
+import RateReviewIcon from '@mui/icons-material/RateReview';
 
 export default function Sidebar() {
   const [expanded, setExpanded] = useState(false);
@@ -66,12 +66,12 @@ export default function Sidebar() {
         Users
       </p>
       </Link>
-      {/* <Link to = "/admin/reviews">
+      <Link to = "/admin/reviews">
       <p> 
         <RateReviewIcon/>
         Reviews
       </p>
-      </Link> */}
+      </Link> *
     </div>
   );
 }
